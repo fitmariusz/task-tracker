@@ -7,8 +7,14 @@ Feel free to join me in working on this module. It is an early stage at the mome
 
 Latter I am planning to synchronise this project with track.toggle.com, but will see how it goes.
 
-# Features
-- [ ] Saves tasks to the database
-- [ ] Show current tasks that are running
-- [ ] Show current day summary.
+# Comming Features
+- Saves tasks in the database
+- Ability to add projects 
+- Ability to add an owner
+- Ability to start new tasks
+- Display current tasks in progress
+- Display summary of tasks for the current day
 
+# Tasks to work on
+- [DONE] task-1: Create a schema.
+- [ ] task-2: Create a database connection with basic CRUD operations.
