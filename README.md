@@ -9,13 +9,18 @@ Feel free to join me in working on this module. It is in the early stages, so pl
 
 Later, I plan to synchronize this project with track.toggle.com, but we will see how it goes.
 
-# Comming Features
-- Saves tasks in the database
-- Ability to add projects 
-- Ability to add an owner
-- Ability to start new tasks
-- Display current tasks in progress
-- Display summary of tasks for the current day
+# Coming Features
+- Ability to manage owners (add, view, update, delete).
+- Ability to manage projects (add, view, update, delete, assign owner).
+- Ability to manage tasks (add, view, update, delete).
+- Start and stop tasks with detailed tracking.
+- Display current tasks in progress.
+- Display summary of tasks for the current day.
+- Autocomplete for CLI commands for efficient navigation.
+- Keybindings for common actions within the terminal.
+- Synchronization with track.toggle.com for external time tracking.
+- Unit tests for all models and features.
+- Comprehensive documentation and usage guidelines.
 
 # Tasks to work on
 - [x] task-1: Create a schema.
