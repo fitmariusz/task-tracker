@@ -17,4 +17,5 @@ Latter I am planning to synchronise this project with track.toggle.com, but will
 
 # Tasks to work on
 - [DONE] task-1: Create a schema.
-- [ ] task-2: Create a database connection with basic CRUD operations.
+- [WORKING] task-2: Use knex.
+- [ ] task-3: Basic CRUD operations.
