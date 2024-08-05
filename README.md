@@ -16,6 +16,6 @@ Latter I am planning to synchronise this project with track.toggle.com, but will
 - Display summary of tasks for the current day
 
 # Tasks to work on
-- [DONE] task-1: Create a schema.
-- [DONE] task-2: Use knex.
+- [x] task-1: Create a schema.
+- [x] task-2: Use knex.
 - [ ] task-3: Basic CRUD operations.
