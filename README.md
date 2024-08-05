@@ -18,5 +18,6 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - Display summary of tasks for the current day
 
 # Tasks to work on
-- [DONE] task-1: Create a schema.
-- [ ] task-2: Create a database connection with basic CRUD operations.
+- [x] task-1: Create a schema.
+- [x] task-2: Use knex.
+- [ ] task-3: Basic CRUD operations.

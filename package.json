@@ -1,0 +1,31 @@
+{
+  "name": "task-tracker",
+  "version": "1.0.0",
+  "description": "Simple task-tracker for Nodejs",
+  "homepage": "https://github.com/KamilMr/task-tracker#readme",
+  "author": "kamil.mrowka@gmail.com",
+  "type": "module",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "npx knex migrate:latest --knexfile src/db/knexfile.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/KamilMr/task-tracker.git"
+  },
+  "keywords": [
+    "task-tracker",
+    "nodejs",
+    "toggle"
+  ],
+  "bugs": {
+    "url": "https://github.com/KamilMr/task-tracker/issues"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "knex": "^3.1.0",
+    "mysql2": "^3.11.0"
+  }
+}
