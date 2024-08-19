@@ -9,6 +9,11 @@ import {
   editClient,
   selectAllClients,
 } from './commands/client.js';
+import {
+  createProject,
+  editProject,
+  selectAllProjects,
+} from './commands/project.js';
 
 program.version('1.0.0');
 
@@ -16,7 +21,10 @@ const mappedActions = {
   'Add client': createClient,
   'Show all': selectAllClients,
   'Edit client': editClient,
-  'Delete client': deleteClient,
+  'Delete client': deleteClient, // TODO:add prop handling
+  'Create project': createProject,
+  'Select all projects': selectAllProjects,
+  'Edit project': editProject,
   Exit: () => {
     process.exit();
   },
