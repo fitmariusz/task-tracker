@@ -26,11 +26,11 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - [x] task-1: Create a schema.
 - [x] task-2: Use knex.
 - [x] task-3: Create Owner Schema.
-- [ ] task-4: Implement Owner Model with CRUD operations.
-- [ ] task-5: Add CLI commands for managing owners (e.g., add-owner, list-owners).
+- [w] task-4: Implement Owner Model with CRUD operations.
+- [w] task-5: Add CLI commands for managing owners (e.g., add-owner, list-owners).
 - [x] task-6: Create Project Schema.
-- [ ] task-7: Implement Project Model with CRUD operations.
-- [ ] task-8: Add CLI commands for managing projects (e.g., add-project, list-projects, assign-owner).
+- [w] task-7: Implement Project Model with CRUD operations.
+- [w] task-8: Add CLI commands for managing projects (e.g., add-project, list-projects, assign-owner).
 - [x] task-9: Create Task Schema.
 - [ ] task-10: Implement Task Model with CRUD operations.
 - [ ] task-11: Add CLI commands for managing tasks (e.g., add-task, list-tasks, update-task).
@@ -43,6 +43,10 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - [ ] task-18: Research and implement synchronization with track.toggle.com.
 - [ ] task-19: Write unit tests for models and features.
 - [ ] task-20: Update documentation in README.md.
+
+## Legend
+x-done 
+w-working
 
 # Discord
 Would you like to work with me? Join me on discord :-)
