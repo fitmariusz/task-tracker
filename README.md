@@ -26,23 +26,25 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - [x] task-1: Create a schema.
 - [x] task-2: Use knex.
 - [x] task-3: Create Owner Schema.
-- [w] task-4: Implement Owner Model with CRUD operations.
-- [w] task-5: Add CLI commands for managing owners (e.g., add-owner, list-owners).
+- [x] task-4: Implement Owner Model with CRUD operations.
+- [x] task-5: Add CLI commands for managing owners (e.g., add-owner, list-owners).
 - [x] task-6: Create Project Schema.
-- [w] task-7: Implement Project Model with CRUD operations.
-- [w] task-8: Add CLI commands for managing projects (e.g., add-project, list-projects, assign-owner).
+- [x] task-7: Implement Project Model with CRUD operations.
+- [x] task-8: Add CLI commands for managing projects (e.g., add-project, list-projects, assign-owner).
 - [x] task-9: Create Task Schema.
-- [ ] task-10: Implement Task Model with CRUD operations.
-- [ ] task-11: Add CLI commands for managing tasks (e.g., add-task, list-tasks, update-task).
-- [ ] task-12: Implement start task functionality.
-- [ ] task-13: Implement stop task functionality.
-- [ ] task-14: Display in-progress tasks.
-- [ ] task-15: Implement autocomplete for CLI commands.
-- [ ] task-16: Add keybindings for common actions.
-- [ ] task-17: Display daily summary report of completed tasks.
-- [ ] task-18: Research and implement synchronization with track.toggle.com.
-- [ ] task-19: Write unit tests for models and features.
-- [ ] task-20: Update documentation in README.md.
+
+Task to be created
+- [ ] task: Implement Task Model with CRUD operations.
+- [ ] task: Add CLI commands for managing tasks (e.g., add-task, list-tasks, update-task).
+- [ ] task: Implement start task functionality.
+- [ ] task: Implement stop task functionality.
+- [ ] task: Display in-progress tasks.
+- [ ] task: Implement autocomplete for CLI commands.
+- [ ] task: Add keybindings for common actions.
+- [ ] task: Display daily summary report of completed tasks.
+- [ ] task: Research and implement synchronization with track.toggle.com.
+- [ ] task: Write unit tests for models and features.
+- [ ] task: Update documentation in README.md.
 
 ## Legend
 x-done 
