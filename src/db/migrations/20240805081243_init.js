@@ -8,8 +8,6 @@ const up = knex => {
     .createTable('project', table => {
       table.increments('id').unsigned().primary();
       table.string('name', 24).notNullable();
-      table.timestamp('tc').defaultTo(knex.fn.now());
-      table.timestamp('end').nullable();
       table.integer('client_id').unsigned();
       table.foreign('client_id').references('id').inTable('client');
     })
@@ -17,7 +15,6 @@ const up = knex => {
       table.increments('id').unsigned().primary();
       table.timestamp('start').defaultTo(knex.fn.now());
       table.timestamp('end').nullable();
-      table.integer('time').unsigned();
       table.string('title', 24).notNullable();
       table.integer('project_id').unsigned();
       table.foreign('project_id').references('id').inTable('project');

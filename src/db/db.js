@@ -5,4 +5,4 @@ import config from './knexfile.js';
 
 const env = process.env.ENV;
 
-const knexInit = knex(config[env]);
+export default knex(config[env]);
