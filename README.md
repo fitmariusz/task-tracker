@@ -32,6 +32,14 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - [x] task-7: Implement Project Model with CRUD operations.
 - [x] task-8: Add CLI commands for managing projects (e.g., add-project, list-projects, assign-owner).
 - [x] task-9: Create Task Schema.
+- [ ] Task-10: Create "Add Task" operation.
+- [ ] Task-11: Add Yup/Joi validation to "Owner Create" and "Update" operations.
+- [ ] Task-12: Add Yup/Joi validation to "Project Create" and "Update" operations.
+- [ ] Task-13: Create "Update Task" operation.
+- [ ] Task-14: Create operations to list all tasks.
+- [ ] Task-15: Add Yup/Joi validation to "Tasks Create" and "Update" operations.
+- [ ] Task-16: Add "Delete Project" operation, which will involve removing all tasks. Confirmation needed.
+- [ ] Task-17: Add "Delete Owner" operation, which will involve removing all tasks and projects. Confirmation needed.
 
 Task to be created
 - [ ] task: Implement Task Model with CRUD operations.
