@@ -66,6 +66,6 @@ const editProject = async () => {
   await projectService.update(project.id, newName);
 };
 
-// TODO: Add delete 
+// TODO: Add delete command when tasks operations are done
 
 export {createProject, selectAllProjects, editProject};
