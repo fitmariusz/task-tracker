@@ -14,10 +14,12 @@ import {
   editProject,
   selectAllProjects,
 } from './commands/project.js';
+import {createTask} from './commands/task.js';
 
 program.version('1.0.0');
 
 const mappedActions = {
+  'Add task': createTask,
   'Add client': createClient,
   'Show all': selectAllClients,
   'Edit client': editClient,
