@@ -11,6 +11,10 @@ const createTask = async () => {
       name: 'title',
       message: 'Insert task title',
       validate: input => {
+        if (input.toLowerCase() === 'exit') {
+          console.log('Exiting the process...');
+          process.exit(); // TODO: add prpper handling when user what to stop action, whole app
+        }
         let resp;
         if ((resp = isTaskInvalid(input))) return resp;
 
@@ -76,6 +80,9 @@ const editTask = async () => {
   const data = await taskService.selectAll();
   const taskChoices = data.map(({title}) => title);
 
+  const projects = await selectAllProjects();
+  const projectChoices = projects.map(({name}) => name);
+
   const {title: taskTitle} = await inquirer.prompt([
     {
       type: 'list',
@@ -101,9 +108,6 @@ const editTask = async () => {
       },
     },
   ]);
-
-  const projects = await selectAllProjects();
-  const projectChoices = projects.map(({name}) => name);
 
   const {name} = await inquirer.prompt([
     {
