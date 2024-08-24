@@ -37,7 +37,9 @@ const createProject = async () => {
 };
 
 const selectAllProjects = async () => {
-  console.log(await projectService.selectAll().then(d => d.map(d => d.name)));
+  const projects = await projectService.selectAll();
+  console.log(projects.map(d => d.name));
+  return projects;
 };
 
 const editProject = async () => {

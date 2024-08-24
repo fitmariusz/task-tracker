@@ -6,6 +6,10 @@ const project = {
     return db(PROJECT_TABLE).insert({name, client_id});
   },
 
+  selectProject: id => {
+    return db(PROJECT_TABLE).select('name').where('id', id);
+  },
+
   listAll: () => {
     return db(PROJECT_TABLE).select();
   },
