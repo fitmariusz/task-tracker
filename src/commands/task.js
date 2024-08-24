@@ -1,6 +1,8 @@
 import inquirer from 'inquirer';
-import {selectAllProjects} from './project.js';
+
 import taskService from '../services/taskService.js';
+import {isDateInvalid, isTaskInvalid} from '../../validation.js';
+import {selectAllProjects} from './project.js';
 
 const createTask = async () => {
   const {title} = await inquirer.prompt([
@@ -8,6 +10,12 @@ const createTask = async () => {
       type: 'input',
       name: 'title',
       message: 'Insert task title',
+      validate: input => {
+        let resp;
+        if ((resp = isTaskInvalid(input))) return resp;
+
+        return true;
+      },
     },
   ]);
 
@@ -39,10 +47,11 @@ const createTask = async () => {
       message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
       default: startDefault,
       validate: input => {
-        // TODO: replace with yup/joi validation
-        return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(input)
-          ? true
-          : 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        let resp;
+        if ((resp = isDateInvalid(input)))
+          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+
+        return true;
       },
     },
     {
@@ -50,10 +59,12 @@ const createTask = async () => {
       name: 'end',
       message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
       validate: input => {
-        // TODO: replace with yup/joi validation
-        return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(input)
-          ? true
-          : 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        let resp;
+        if ((resp = isDateInvalid(input)))
+          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        // TODO: validate if end date is after start date
+
+        return true;
       },
     },
   ]);
@@ -61,4 +72,100 @@ const createTask = async () => {
   await taskService.create(start, end, title, project.id);
 };
 
-export {createTask};
+const editTask = async () => {
+  const data = await taskService.selectAll();
+  const taskChoices = data.map(({title}) => title);
+
+  const {title: taskTitle} = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'title',
+      message: 'Which one would you like to edit?',
+      choices: taskChoices,
+    },
+  ]);
+
+  const task = data.find(d => d.title === taskTitle);
+
+  const {title} = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Insert task title',
+      default: task.title,
+      validate: input => {
+        let resp;
+        if ((resp = isTaskInvalid(input))) return resp;
+
+        return true;
+      },
+    },
+  ]);
+
+  const projects = await selectAllProjects();
+  const projectChoices = projects.map(({name}) => name);
+
+  const {name} = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'name',
+      default: projects.find(p => p.id === task.project_id).name,
+      message: 'Select project',
+      choices: projectChoices,
+    },
+  ]);
+
+  const project = projects.find(c => c.name === name);
+
+  // Get current date and time
+  const taskStart = new Date(task.start);
+  const dateStart = taskStart.toISOString().split('T')[0]; // format YYYY-MM-DD
+  const timeStart = taskStart.toTimeString().split(' ')[0].slice(0, 5); // format HH:mm
+  const taskDefStart = `${dateStart} ${timeStart}`;
+
+  const taskEnd = new Date(task.end);
+  const dateEnd = taskEnd.toISOString().split('T')[0]; // format YYYY-MM-DD
+  const timeEnd = taskEnd.toTimeString().split(' ')[0].slice(0, 5); // format HH:mm
+  const taskDefEnd = `${dateEnd} ${timeEnd}`;
+
+  // Prompt for start and end dates with time
+  const {start, end} = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'start',
+      message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
+      default: taskDefStart,
+      validate: input => {
+        let resp;
+        if ((resp = isDateInvalid(input)))
+          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+
+        return true;
+      },
+    },
+    {
+      type: 'input',
+      name: 'end',
+      message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
+      default: taskDefEnd,
+      validate: input => {
+        let resp;
+        if ((resp = isDateInvalid(input)))
+          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        // TODO: validate if end date is after start date
+
+        return true;
+      },
+    },
+  ]);
+
+  await taskService.update(task.id, start, end, title, project.id);
+};
+
+const selectAllTasks = async () => {
+  const tasks = await taskService.selectAll();
+  console.log(tasks.map(d => d.title));
+  return tasks;
+};
+
+export {createTask, editTask, selectAllTasks};
