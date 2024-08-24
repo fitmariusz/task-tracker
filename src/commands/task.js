@@ -78,10 +78,15 @@ const createTask = async () => {
 
 const editTask = async () => {
   const data = await taskService.selectAll();
-  const taskChoices = data.map(({title}) => title);
-
   const projects = await selectAllProjects();
+
   const projectChoices = projects.map(({name}) => name);
+  const taskChoices = data
+    .map(t => ({
+      ...t,
+      projectName: projects.find(p => p.id === t.project_id).name || 'missing',
+    }))
+    .map(({title, projectName}) => `${title}:${projectName}`);
 
   const {title: taskTitle} = await inquirer.prompt([
     {
@@ -92,7 +97,7 @@ const editTask = async () => {
     },
   ]);
 
-  const task = data.find(d => d.title === taskTitle);
+  const task = data.find(d => d.title === taskTitle.split(':')[0]);
 
   const {title} = await inquirer.prompt([
     {
