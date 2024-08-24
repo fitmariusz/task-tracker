@@ -1,7 +1,8 @@
 import inquirer from 'inquirer';
 
-import {selectAllProjects} from './project.js';
 import taskService from '../services/taskService.js';
+import {isDateInvalid, isTaskInvalid} from '../../validation.js';
+import {selectAllProjects} from './project.js';
 
 const createTask = async () => {
   const {title} = await inquirer.prompt([
@@ -9,6 +10,12 @@ const createTask = async () => {
       type: 'input',
       name: 'title',
       message: 'Insert task title',
+      validate: input => {
+        let resp;
+        if ((resp = isTaskInvalid(input))) return resp;
+
+        return true;
+      },
     },
   ]);
 
@@ -40,10 +47,11 @@ const createTask = async () => {
       message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
       default: startDefault,
       validate: input => {
-        // TODO: replace with yup/joi validation
-        return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(input)
-          ? true
-          : 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        let resp;
+        if ((resp = isDateInvalid(input)))
+          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+
+        return true;
       },
     },
     {
@@ -51,10 +59,12 @@ const createTask = async () => {
       name: 'end',
       message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
       validate: input => {
-        // TODO: replace with yup/joi validation
-        return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(input)
-          ? true
-          : 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        let resp;
+        if ((resp = isDateInvalid(input)))
+          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+        // TODO: validate if end date is after start date
+
+        return true;
       },
     },
   ]);
