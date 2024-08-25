@@ -38,11 +38,12 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - [x] Task-13: Create "Update Task" operation.
 - [x] Task-14: Create operation to list all tasks.
 - [x] Task-15: Add Yup validation to "Tasks Create" and "Update" operations.
-- [w] Task-16: Add "Delete Project" operation, which will involve removing all tasks. Confirmation needed.
-- [w] Task-17: Add "Delete Owner" operation, which will involve removing all tasks and projects. Confirmation needed.
-- [w] Task-18: Add "Delete Task" operation
+- [x] Task-16: Add "Delete Project" operation, which will involve removing all tasks. 
+- [x] Task-17: Add "Delete Owner" operation, which will involve removing all tasks and projects. 
+- [x] Task-18: Add "Delete Task" operation
 
 Task to be created
+- [ ] task: Add confirmation some sort when removing project or client
 - [ ] task: Implement Task Model with CRUD operations.
 - [ ] task: Add CLI commands for managing tasks (e.g., add-task, list-tasks, update-task).
 - [ ] task: Implement start task functionality.
