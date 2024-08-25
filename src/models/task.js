@@ -27,6 +27,10 @@ const task = {
       project_id: projectId,
     });
   },
+
+  delete: ({id}) => {
+    return db(PROJECT_TABLE).where({id}).del();
+  },
 };
 
 export default task;

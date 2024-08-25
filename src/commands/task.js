@@ -177,4 +177,30 @@ const selectAllTasks = async () => {
   return tasks;
 };
 
-export {createTask, editTask, selectAllTasks};
+const deleteTask = async () => {
+  const data = await taskService.selectAll();
+
+  const projects = await selectAllProjects();
+
+  const taskChoices = data
+    .map(t => ({
+      ...t,
+      projectName: projects.find(p => p.id === t.project_id).name || 'missing',
+    }))
+    .map(({title, projectName}) => `${title}:${projectName}`);
+
+  const {title: taskTitle} = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'title',
+      message: 'Which one would you like to delete?',
+      choices: taskChoices,
+    },
+  ]);
+
+  const task = data.find(d => d.title === taskTitle.split(':')[0]);
+
+  return taskService.delete(task.id);
+};
+
+export {createTask, editTask, selectAllTasks, deleteTask};

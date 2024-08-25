@@ -23,6 +23,10 @@ const taskService = {
     if (!project) throw 'Project does not exist';
     return taskModel.edit({id, start, end, title, projectId});
   },
+
+  delete: id => {
+    return taskModel.delete({id});
+  },
 };
 
 export default taskService;
