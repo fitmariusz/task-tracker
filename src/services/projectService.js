@@ -1,4 +1,5 @@
 import projectModel from '../models/project.js';
+import task from '../models/task.js';
 
 const projectService = {
   create: (name, clientId) => {
@@ -9,9 +10,13 @@ const projectService = {
     return projectModel.listAll();
   },
 
-  delete: name => {
-    // TODO: delete tasks
-    return projectModel.delete(name);
+  selectByCliId: id => {
+    return projectModel.selectByCliId(id);
+  },
+
+  delete: async project => {
+    await task.delete({col: 'project_id', val: project.id});
+    return projectModel.delete({col: 'id', value: project.id});
   },
 
   update: (id, name) => {

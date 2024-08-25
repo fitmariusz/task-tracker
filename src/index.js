@@ -11,24 +11,32 @@ import {
 } from './commands/client.js';
 import {
   createProject,
+  deleteProject,
   editProject,
   selectAllProjects,
 } from './commands/project.js';
-import {createTask, editTask, selectAllTasks} from './commands/task.js';
+import {
+  createTask,
+  deleteTask,
+  editTask,
+  selectAllTasks,
+} from './commands/task.js';
 
 program.version('1.0.0');
 
 const mappedActions = {
-  'Add task': createTask,
-  'Edit task': editTask,
-  'Show tasks': selectAllTasks, 
   'Add client': createClient,
-  'Show clients': selectAllClients,
-  'Edit client': editClient,
+  'Add project': createProject,
+  'Add task': createTask,
   'Delete client': deleteClient, // TODO:add prop handling
-  'Create project': createProject,
-  'Show projects': selectAllProjects,
+  'Delete project': deleteProject,
+  'Delete tasks': deleteTask,
+  'Edit client': editClient,
   'Edit project': editProject,
+  'Edit task': editTask,
+  'Show clients': selectAllClients,
+  'Show projects': selectAllProjects,
+  'Show tasks': selectAllTasks,
   Exit: () => {
     process.exit();
   },
