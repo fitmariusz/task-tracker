@@ -1,10 +1,12 @@
 import inquirer from 'inquirer';
 
+import projectModel from '../models/project.js';
 import taskService from '../services/taskService.js';
 import {isDateInvalid, isTaskInvalid} from '../../validation.js';
 import {selectAllProjects} from './project.js';
 
 const createTask = async () => {
+  if (!(await projectModel.isProject())) return;
   const {title} = await inquirer.prompt([
     {
       type: 'input',
@@ -78,7 +80,7 @@ const createTask = async () => {
 
 const editTask = async () => {
   const data = await taskService.selectAll();
-    if (!data.length) return;
+  if (!data.length) return;
 
   const projects = await selectAllProjects();
 

@@ -2,10 +2,12 @@ import inquirer from 'inquirer';
 
 import projectService from '../services/projectService.js';
 import clientService from '../services/clientService.js';
+import clientModel from '../models/client.js';
 
 //TODO: validate
 
 const createProject = async () => {
+  if (!(await clientModel.isClient())) return;
   // Check client existance
   const clients = await clientService.selectAll();
   // project name create
@@ -33,7 +35,6 @@ const createProject = async () => {
   // save
   await projectService.create(name, client.id);
 
-  console.log(await projectService.selectAll());
 };
 
 const selectAllProjects = async () => {
@@ -44,7 +45,7 @@ const selectAllProjects = async () => {
 
 const editProject = async () => {
   const data = await projectService.selectAll();
-    if (!data.length) return;
+  if (!data.length) return;
 
   const choices = data.map(({name}) => name);
   const {name} = await inquirer.prompt([

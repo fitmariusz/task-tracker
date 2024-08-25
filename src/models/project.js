@@ -25,6 +25,12 @@ const project = {
   edit: (id, name) => {
     return db(PROJECT_TABLE).where({id}).update({name}, ['name']);
   },
+
+  isProject: async () => {
+    return db(PROJECT_TABLE)
+      .select()
+      .then(d => d.length > 0);
+  },
 };
 
 export default project;
