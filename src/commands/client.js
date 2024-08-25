@@ -21,8 +21,8 @@ const selectAllClients = async () => {
 };
 
 const deleteClient = async () => {
-  const data = await selectAllClients();
-  const choices = data.map(({name}) => name).concat('Stop');
+  const clients = await selectAllClients();
+  const choices = clients.map(({name}) => name).concat('Stop');
 
   const {name} = await inquirer.prompt([
     {
@@ -35,12 +35,14 @@ const deleteClient = async () => {
 
   if (name === 'Stop') return;
 
-  const resp = await clientService.delete(name);
-  console.log(resp);
+  const resp = await clientService.delete(clients.find(c => c.name === name));
+
+  return resp;
 };
 
 const editClient = async () => {
   const data = await clientService.selectAll();
+  if (!data.length) return;
   const choices = data.map(({name}) => name);
   const {name} = await inquirer.prompt([
     {

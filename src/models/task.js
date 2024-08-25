@@ -28,8 +28,8 @@ const task = {
     });
   },
 
-  delete: ({id}) => {
-    return db(PROJECT_TABLE).where({id}).del();
+  delete: ({col, val}) => {
+    return db(PROJECT_TABLE).where(col, val).del();
   },
 };
 

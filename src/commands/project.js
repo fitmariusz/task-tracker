@@ -44,6 +44,8 @@ const selectAllProjects = async () => {
 
 const editProject = async () => {
   const data = await projectService.selectAll();
+    if (!data.length) return;
+
   const choices = data.map(({name}) => name);
   const {name} = await inquirer.prompt([
     {
@@ -68,6 +70,22 @@ const editProject = async () => {
   await projectService.update(project.id, newName);
 };
 
-// TODO: Add delete command when tasks operations are done
+const deleteProject = async () => {
+  const data = await projectService.selectAll();
+  if (!data.length) return;
+  const choices = data.map(({name}) => name);
+  const {name} = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'name',
+      message: 'Which one would you like to delete?',
+      choices: choices,
+    },
+  ]);
 
-export {createProject, selectAllProjects, editProject};
+  const project = data.find(c => c.name === name);
+
+  await projectService.delete(project);
+};
+
+export {createProject, selectAllProjects, editProject, deleteProject};

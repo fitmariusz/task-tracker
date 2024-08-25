@@ -10,12 +10,16 @@ const project = {
     return db(PROJECT_TABLE).select('name').where('id', id);
   },
 
+  selectByCliId: cliId => {
+    return db(PROJECT_TABLE).select().where('client_id', cliId);
+  },
+
   listAll: () => {
     return db(PROJECT_TABLE).select();
   },
 
-  delete: name => {
-    return db(PROJECT_TABLE).where('name', name).del(['id', 'name']);
+  delete: ({col, value}) => {
+    return db(PROJECT_TABLE).where(col, value).del();
   },
 
   edit: (id, name) => {

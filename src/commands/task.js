@@ -78,6 +78,8 @@ const createTask = async () => {
 
 const editTask = async () => {
   const data = await taskService.selectAll();
+    if (!data.length) return;
+
   const projects = await selectAllProjects();
 
   const projectChoices = projects.map(({name}) => name);
@@ -179,6 +181,8 @@ const selectAllTasks = async () => {
 
 const deleteTask = async () => {
   const data = await taskService.selectAll();
+
+  if (!data.length) return;
 
   const projects = await selectAllProjects();
 

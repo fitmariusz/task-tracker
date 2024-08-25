@@ -25,7 +25,11 @@ const taskService = {
   },
 
   delete: id => {
-    return taskModel.delete({id});
+    return taskModel.delete({col: 'id', val: id});
+  },
+
+  deleteByProject: id => {
+    return taskModel.delete({col: 'project_id', val: id});
   },
 };
 
