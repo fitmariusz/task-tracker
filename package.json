@@ -24,9 +24,9 @@
     "url": "https://github.com/KamilMr/task-tracker/issues"
   },
   "dependencies": {
+    "@inquirer/prompts": "^5.3.8",
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "inquirer": "^10.1.8",
     "knex": "^3.1.0",
     "mysql2": "^3.11.0",
     "yup": "^1.4.0"
