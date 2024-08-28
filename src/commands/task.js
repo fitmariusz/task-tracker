@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import * as inquirer from '@inquirer/prompts';
 
 import projectModel from '../models/project.js';
 import taskService from '../services/taskService.js';
@@ -7,35 +7,37 @@ import {selectAllProjects} from './project.js';
 
 const createTask = async () => {
   if (!(await projectModel.isProject())) return;
-  const {title} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'title',
-      message: 'Insert task title',
-      validate: input => {
-        if (input.toLowerCase() === 'exit') {
-          console.log('Exiting the process...');
-          process.exit(); // TODO: add prpper handling when user what to stop action, whole app
-        }
-        let resp;
-        if ((resp = isTaskInvalid(input))) return resp;
+  const title = await inquirer.input({
+    message: 'Insert task title',
+    validate: input => {
+      if (input.toLowerCase() === 'exit') {
+        console.log('Exiting the process...');
+        process.exit(); // TODO: add prpper handling when user what to stop action, whole app
+      }
+      let resp;
+      if ((resp = isTaskInvalid(input))) return resp;
 
-        return true;
-      },
+      return true;
     },
-  ]);
+  });
 
   const projects = await selectAllProjects();
-  const choices = projects.map(({name}) => name);
 
-  const {name} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      message: 'Select project',
-      choices: choices,
+  const name = await inquirer.search({
+    message: 'Select project',
+    source: input => {
+      const choices = projects
+        .map(({name}) => name)
+        .map(f => ({
+          name: f,
+          value: f,
+        }));
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
 
   const project = projects.find(c => c.name === name);
 
@@ -46,34 +48,31 @@ const createTask = async () => {
   const startDefault = `${date} ${time}`;
 
   // Prompt for start and end dates with time
-  const {start, end} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'start',
-      message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
-      default: startDefault,
-      validate: input => {
-        let resp;
-        if ((resp = isDateInvalid(input)))
-          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+  const start = await inquirer.input({
+    message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
+    default: startDefault,
+    validate: input => {
+      let resp;
+      if ((resp = isDateInvalid(input)))
+        return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
 
-        return true;
-      },
+      return true;
     },
-    {
-      type: 'input',
-      name: 'end',
-      message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
-      validate: input => {
-        let resp;
-        if ((resp = isDateInvalid(input)))
-          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
-        // TODO: validate if end date is after start date
+  });
 
-        return true;
-      },
+  const end = await inquirer.input({
+    message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
+    validate: input => {
+      let resp;
+      if ((resp = isDateInvalid(input)))
+        return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+
+      if (new Date(input) <= new Date(start))
+        return 'End date must be after the start date';
+
+      return true;
     },
-  ]);
+  });
 
   await taskService.create(start, end, title, project.id);
 };
@@ -84,49 +83,57 @@ const editTask = async () => {
 
   const projects = await selectAllProjects();
 
-  const projectChoices = projects.map(({name}) => name);
-  const taskChoices = data
-    .map(t => ({
-      ...t,
-      projectName: projects.find(p => p.id === t.project_id).name || 'missing',
-    }))
-    .map(({title, projectName}) => `${title}:${projectName}`);
-
-  const {title: taskTitle} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'title',
-      message: 'Which one would you like to edit?',
-      choices: taskChoices,
+  const taskTitle = await inquirer.search({
+    message: 'Which one would you like to edit?',
+    source: input => {
+      const choices = data
+        .map(t => ({
+          ...t,
+          projectName:
+            projects.find(p => p.id === t.project_id).name || 'missing',
+        }))
+        .map(({title, projectName}) => ({
+          name: `${title}:${projectName}`,
+          value: `${title}:${projectName}`,
+        }));
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
 
   const task = data.find(d => d.title === taskTitle.split(':')[0]);
 
-  const {title} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'title',
-      message: 'Insert task title',
-      default: task.title,
-      validate: input => {
-        let resp;
-        if ((resp = isTaskInvalid(input))) return resp;
+  const title = await inquirer.input({
+    message: 'Insert task title',
+    validate: input => {
+      if (input.toLowerCase() === 'exit') {
+        console.log('Exiting the process...');
+        process.exit(); // TODO: add prpper handling when user what to stop action, whole app
+      }
+      let resp;
+      if ((resp = isTaskInvalid(input))) return resp;
 
-        return true;
-      },
+      return true;
     },
-  ]);
+  });
 
-  const {name} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      default: projects.find(p => p.id === task.project_id).name,
-      message: 'Select project',
-      choices: projectChoices,
+  const name = await inquirer.search({
+    message: 'Select project',
+    source: input => {
+      const choices = projects
+        .map(({name}) => name)
+        .map(f => ({
+          name: f,
+          value: f,
+        }));
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
 
   const project = projects.find(c => c.name === name);
 
@@ -142,35 +149,32 @@ const editTask = async () => {
   const taskDefEnd = `${dateEnd} ${timeEnd}`;
 
   // Prompt for start and end dates with time
-  const {start, end} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'start',
-      message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
-      default: taskDefStart,
-      validate: input => {
-        let resp;
-        if ((resp = isDateInvalid(input)))
-          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+  const start = await inquirer.input({
+    message: 'Enter start date and time (YYYY-MM-DD HH:mm)',
+    default: taskDefStart,
+    validate: input => {
+      let resp;
+      if ((resp = isDateInvalid(input)))
+        return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
 
-        return true;
-      },
+      return true;
     },
-    {
-      type: 'input',
-      name: 'end',
-      message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
-      default: taskDefEnd,
-      validate: input => {
-        let resp;
-        if ((resp = isDateInvalid(input)))
-          return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
-        // TODO: validate if end date is after start date
+  });
 
-        return true;
-      },
+  const end = await inquirer.input({
+    message: 'Enter end date and time (YYYY-MM-DD HH:mm)',
+    default: taskDefEnd,
+    validate: input => {
+      let resp;
+      if ((resp = isDateInvalid(input)))
+        return 'Please enter a valid date and time in the format YYYY-MM-DD HH:mm';
+
+      if (new Date(input) <= new Date(start))
+        return 'End date must be after the start date';
+
+      return true;
     },
-  ]);
+  });
 
   await taskService.update(task.id, start, end, title, project.id);
 };
@@ -188,25 +192,41 @@ const deleteTask = async () => {
 
   const projects = await selectAllProjects();
 
-  const taskChoices = data
-    .map(t => ({
-      ...t,
-      projectName: projects.find(p => p.id === t.project_id).name || 'missing',
-    }))
-    .map(({title, projectName}) => `${title}:${projectName}`);
-
-  const {title: taskTitle} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'title',
-      message: 'Which one would you like to delete?',
-      choices: taskChoices,
+  const taskTitle = await inquirer.search({
+    message: 'Which one would you like to edit?',
+    source: input => {
+      const choices = data
+        .map(t => ({
+          ...t,
+          projectName:
+            projects.find(p => p.id === t.project_id).name || 'missing',
+        }))
+        .map(({title, projectName}) => ({
+          name: `${title}:${projectName}`,
+          value: `${title}:${projectName}`,
+        }));
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
 
   const task = data.find(d => d.title === taskTitle.split(':')[0]);
 
   return taskService.delete(task.id);
+};
+
+const timer = async () => {
+  // type task name or select from known
+  const tasks = await taskService.selectAll();
+  const choices = tasks.map(t => t.title);
+  // connect with the project
+  // save record in db and start counting
+  // click s to stop timer and save end time to db
+  //
+  // txt file for i3blocks
+  // every 3 seconds update a file with data: total day time work, curr task name, current work time
 };
 
 export {createTask, editTask, selectAllTasks, deleteTask};
