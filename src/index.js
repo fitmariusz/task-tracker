@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {program} from 'commander';
-import inquirer from 'inquirer';
+import {search} from '@inquirer/prompts';
 
 import {
   createClient,
@@ -42,19 +42,24 @@ const mappedActions = {
   },
 };
 
-const actions = [
-  {
-    type: 'list',
-    name: 'action',
-    message: 'Choose what you would like to do.',
-    choices: Object.keys(mappedActions),
-  },
-];
 
 const main = async () => {
   try {
     while (true) {
-      const {action} = await inquirer.prompt(actions);
+      const action = await search({
+        message: 'What you want to do?',
+        source: input => {
+          const choices = Object.keys(mappedActions).map(f => ({
+            name: f,
+            value: f,
+          }));
+          if (!input) return choices;
+          return choices.filter(choice =>
+            choice.name.toLowerCase().includes(input.toLowerCase()),
+          );
+        },
+      });
+      console.log(action);
       const func = mappedActions[action];
       if (!func) throw new Error('Action not recognized');
 
