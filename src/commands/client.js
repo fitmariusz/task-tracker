@@ -1,15 +1,12 @@
-import inquirer from 'inquirer';
+import * as inquirer from '@inquirer/prompts';
 
 import clientService from '../services/clientService.js';
 
 const createClient = async () => {
-  const {name} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: 'What is client name?',
-    },
-  ]);
+  const name = await inquirer.input({
+    message: 'What is the client name?',
+  });
+  if (!name) return;
   await clientService.create(name);
   return;
 };
@@ -22,16 +19,18 @@ const selectAllClients = async () => {
 
 const deleteClient = async () => {
   const clients = await selectAllClients();
-  const choices = clients.map(({name}) => name).concat('Stop');
-
-  const {name} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      message: 'Which to delete?',
-      choices: choices,
-    },
-  ]);
+  const choices = clients
+    .map(({name}) => ({name, value: name}))
+    .concat({name: 'Stop', value: 'Stop'});
+  const name = await inquirer.search({
+    message: 'Which to delete?',
+    source: input =>
+      input
+        ? choices.filter(choice =>
+            choice.toLowerCase().includes(input.toLowerCase()),
+          )
+        : choices,
+  });
 
   if (name === 'Stop') return;
 
@@ -43,24 +42,26 @@ const deleteClient = async () => {
 const editClient = async () => {
   const data = await clientService.selectAll();
   if (!data.length) return;
-  const choices = data.map(({name}) => name);
-  const {name} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      message: 'Whom do you want to edit?',
-      choices: choices,
+  const name = await inquirer.search({
+    message: 'Whom do you want to edit?',
+    source: input => {
+      const choices = data
+        .map(({name}) => name)
+        .map(f => ({
+          name: f,
+          value: f,
+        }));
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
 
-  const {newName} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'newName',
-      default: name,
-      message: 'New name',
-    },
-  ]);
+  const newName = await inquirer.input({
+    default: name,
+    message: 'New name?',
+  });
 
   const client = data.find(c => c.name === name);
 
