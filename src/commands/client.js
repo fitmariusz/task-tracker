@@ -22,6 +22,7 @@ const deleteClient = async () => {
   const choices = clients
     .map(({name}) => ({name, value: name}))
     .concat({name: 'Stop', value: 'Stop'});
+
   const name = await inquirer.search({
     message: 'Which to delete?',
     source: input =>
@@ -50,13 +51,15 @@ const editClient = async () => {
         .map(f => ({
           name: f,
           value: f,
-        }));
+        })).concat({name: 'Stop', value: 'Stop'});
       if (!input) return choices;
       return choices.filter(choice =>
         choice.name.toLowerCase().includes(input.toLowerCase()),
       );
     },
   });
+
+  if (name === 'Stop') return;
 
   const newName = await inquirer.input({
     default: name,

@@ -31,13 +31,17 @@ const createTask = async () => {
         .map(f => ({
           name: f,
           value: f,
-        }));
+        }))
+        .concat({name: 'Stop', value: 'Stop'});
+
       if (!input) return choices;
       return choices.filter(choice =>
         choice.name.toLowerCase().includes(input.toLowerCase()),
       );
     },
   });
+
+  if (name === 'Stop') return;
 
   const project = projects.find(c => c.name === name);
 
@@ -95,13 +99,17 @@ const editTask = async () => {
         .map(({title, projectName}) => ({
           name: `${title}:${projectName}`,
           value: `${title}:${projectName}`,
-        }));
+        }))
+        .concat({name: 'Stop', value: 'Stop'});
+
       if (!input) return choices;
       return choices.filter(choice =>
         choice.name.toLowerCase().includes(input.toLowerCase()),
       );
     },
   });
+
+  if (name === 'Stop') return;
 
   const task = data.find(d => d.title === taskTitle.split(':')[0]);
 
@@ -127,7 +135,9 @@ const editTask = async () => {
         .map(f => ({
           name: f,
           value: f,
-        }));
+        }))
+        .concat({name: 'Stop', value: 'Stop'});
+
       if (!input) return choices;
       return choices.filter(choice =>
         choice.name.toLowerCase().includes(input.toLowerCase()),
@@ -135,6 +145,7 @@ const editTask = async () => {
     },
   });
 
+  if (name === 'Stop') return;
   const project = projects.find(c => c.name === name);
 
   // Get current date and time
@@ -204,7 +215,9 @@ const deleteTask = async () => {
         .map(({title, projectName}) => ({
           name: `${title}:${projectName}`,
           value: `${title}:${projectName}`,
-        }));
+        }))
+        .concat({name: 'Stop', value: 'Stop'});
+
       if (!input) return choices;
       return choices.filter(choice =>
         choice.name.toLowerCase().includes(input.toLowerCase()),
@@ -212,21 +225,11 @@ const deleteTask = async () => {
     },
   });
 
+  if (taskTitle === 'Stop') return;
+
   const task = data.find(d => d.title === taskTitle.split(':')[0]);
 
   return taskService.delete(task.id);
-};
-
-const timer = async () => {
-  // type task name or select from known
-  const tasks = await taskService.selectAll();
-  const choices = tasks.map(t => t.title);
-  // connect with the project
-  // save record in db and start counting
-  // click s to stop timer and save end time to db
-  //
-  // txt file for i3blocks
-  // every 3 seconds update a file with data: total day time work, curr task name, current work time
 };
 
 export {createTask, editTask, selectAllTasks, deleteTask};
