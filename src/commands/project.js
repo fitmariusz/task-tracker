@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import * as inquirer from '@inquirer/prompts';
 
 import projectService from '../services/projectService.js';
 import clientService from '../services/clientService.js';
@@ -11,30 +11,28 @@ const createProject = async () => {
   // Check client existance
   const clients = await clientService.selectAll();
   // project name create
-  const {name} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: 'What is the name of the project?',
-    },
-  ]);
+  const name = await inquirer.input({
+    message: 'What is the name of the project?',
+  });
 
-  const choices = clients.map(({name}) => name).concat('Stop');
+  const choices = clients
+    .map(({name}) => ({name, value: name}))
+    .concat({name: 'Stop', value: 'Stop'});
 
-  const {name: pName} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      message: 'To which client should I attach this?',
-      choices: choices,
+  const pName = await inquirer.search({
+    message: 'To which client should I attach this?',
+    source: input => {
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
   if (pName === 'Stop') return;
 
   const client = clients.find(c => c.name === pName);
   // save
   await projectService.create(name, client.id);
-
 };
 
 const selectAllProjects = async () => {
@@ -47,24 +45,26 @@ const editProject = async () => {
   const data = await projectService.selectAll();
   if (!data.length) return;
 
-  const choices = data.map(({name}) => name);
-  const {name} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      message: 'Which one would you like to edit?',
-      choices: choices,
-    },
-  ]);
+  const choices = data
+    .map(({name}) => ({name, value: name}))
+    .concat({name: 'Stop', value: 'Stop'});
 
-  const {newName} = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'newName',
-      default: name,
-      message: 'New name',
+  const name = await inquirer.search({
+    message: 'Which one would you like to edit?',
+    source: input => {
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
+
+  if (name === 'Stop') return;
+
+  const newName = await inquirer.input({
+    default: name,
+    message: 'New name?',
+  });
 
   const project = data.find(c => c.name === name);
 
@@ -74,15 +74,21 @@ const editProject = async () => {
 const deleteProject = async () => {
   const data = await projectService.selectAll();
   if (!data.length) return;
-  const choices = data.map(({name}) => name);
-  const {name} = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'name',
-      message: 'Which one would you like to delete?',
-      choices: choices,
+
+  const choices = data
+    .map(({name}) => ({name, value: name}))
+    .concat({name: 'Stop', value: 'Stop'});
+
+  const name = await inquirer.search({
+    message: 'Which one would you like to delete?',
+    source: input => {
+      if (!input) return choices;
+      return choices.filter(choice =>
+        choice.name.toLowerCase().includes(input.toLowerCase()),
+      );
     },
-  ]);
+  });
+  if (name === 'Stop') return;
 
   const project = data.find(c => c.name === name);
 
