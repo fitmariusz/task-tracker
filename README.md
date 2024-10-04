@@ -9,10 +9,12 @@ Feel free to join me in working on this module. It is in the early stages, so pl
 
 Later, I plan to synchronize this project with track.toggle.com, but we will see how it goes.
 
-# Coming Features
+# Features
 - Ability to manage owners (add, view, update, delete).
 - Ability to manage projects (add, view, update, delete, assign owner).
 - Ability to manage tasks (add, view, update, delete).
+
+# Coming Features
 - Start and stop tasks with detailed tracking.
 - Display current tasks in progress.
 - Display summary of tasks for the current day.
@@ -23,24 +25,8 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - Comprehensive documentation and usage guidelines.
 
 # Tasks to work on
-- [x] task-1: Create a schema.
-- [x] task-2: Use knex.
-- [x] task-3: Create Owner Schema.
-- [x] task-4: Implement Owner Model with CRUD operations.
-- [x] task-5: Add CLI commands for managing owners (e.g., add-owner, list-owners).
-- [x] task-6: Create Project Schema.
-- [x] task-7: Implement Project Model with CRUD operations.
-- [x] task-8: Add CLI commands for managing projects (e.g., add-project, list-projects, assign-owner).
-- [x] task-9: Create Task Schema.
-- [x] Task-10: Create "Add Task" operation.
 - [ ] Task-11: Add Yup validation to "Owner Create" and "Update" operations.
 - [ ] Task-12: Add Yup validation to "Project Create" and "Update" operations.
-- [x] Task-13: Create "Update Task" operation.
-- [x] Task-14: Create operation to list all tasks.
-- [x] Task-15: Add Yup validation to "Tasks Create" and "Update" operations.
-- [x] Task-16: Add "Delete Project" operation, which will involve removing all tasks. 
-- [x] Task-17: Add "Delete Owner" operation, which will involve removing all tasks and projects. 
-- [x] Task-18: Add "Delete Task" operation
 
 Task to be created
 - [ ] task: Add confirmation some sort when removing project or client
