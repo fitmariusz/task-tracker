@@ -28,10 +28,10 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - [ ] Task-11: Add Yup validation to "Owner Create" and "Update" operations.
 - [ ] Task-12: Add Yup validation to "Project Create" and "Update" operations.
 - [ ] Task-19: Add confirmation some sort when removing project or client
+- [W] Task-20: Implement task timer functionality (start, stop, save)
+- [ ] Task-21: Write summary command that prints out table with: date, task, time, project, client. It should be sorted by date. 
 
 Task to be created
-- [w] task: Implement start task functionality.
-- [w] task: Implement stop task functionality.
 - [ ] task: Display in-progress tasks.
 - [ ] task: Implement autocomplete for CLI commands.
 - [ ] task: Add keybindings for common actions.
