@@ -25,5 +25,8 @@ const dateSchema = string()
 
 const taskSchema = string().min(2).max(50).required();
 
+const projectSchema = string().min(3).max(10).required();
+
 export const isTaskInvalid = d => isInvalidYup(taskSchema, d);
 export const isDateInvalid = d => isInvalidYup(dateSchema, d);
+export const isProjectInvalid = d => isInvalidYup(projectSchema, d);

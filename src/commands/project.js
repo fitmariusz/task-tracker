@@ -3,6 +3,7 @@ import * as inquirer from '@inquirer/prompts';
 import projectService from '../services/projectService.js';
 import clientService from '../services/clientService.js';
 import clientModel from '../models/client.js';
+import {isProjectInvalid} from '../../validation.js';
 
 //TODO: validate
 
@@ -13,6 +14,17 @@ const createProject = async () => {
   // project name create
   const name = await inquirer.input({
     message: 'What is the name of the project?',
+    validate: input => {
+      if (input.toLowerCase() === 'exit') {
+        console.log('Exiting the process...');
+        process.exit(); // TODO: add prpper handling when user what to stop action, whole app
+      }
+      let resp;
+      if ((resp = isProjectInvalid(input))) return resp;
+
+      return resp;
+
+    }
   });
 
   const choices = clients
