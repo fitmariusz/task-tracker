@@ -6,6 +6,7 @@ const isInvalidYup = (schema, ...rest) => {
   try {
     schema.validateSync(...rest);
   } catch (err) {
+    console.log(err)
     return err;
   }
 };
@@ -25,7 +26,7 @@ const dateSchema = string()
 
 const taskSchema = string().min(2).max(50).required();
 
-const projectSchema = string().min(3).max(10).required();
+const projectSchema = string().min(3).max(20).required();
 
 export const isTaskInvalid = d => isInvalidYup(taskSchema, d);
 export const isDateInvalid = d => isInvalidYup(dateSchema, d);

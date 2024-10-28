@@ -22,9 +22,9 @@ const createProject = async () => {
       let resp;
       if ((resp = isProjectInvalid(input))) return resp;
 
-      return resp;
+      return true;
 
-    }
+    },
   });
 
   const choices = clients
@@ -76,6 +76,17 @@ const editProject = async () => {
   const newName = await inquirer.input({
     default: name,
     message: 'New name?',
+    validate: input => {
+      if (input.toLowerCase() === 'exit') {
+        console.log('Exiting the process...');
+        process.exit(); // TODO: add prpper handling when user what to stop action, whole app
+      }
+      let resp;
+      if ((resp = isProjectInvalid(input))) return resp;
+
+      return resp;
+
+    }
   });
 
   const project = data.find(c => c.name === name);
