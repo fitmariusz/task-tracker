@@ -16,7 +16,7 @@ const createProject = async () => {
     message: 'What is the name of the project?',
     validate: input => {
       if (input.toLowerCase() === 'exit') {
-        console.log('Exiting the process...');
+        console.log('Exiting the process...');// TODO: handle console.logs in production properly
         process.exit(); // TODO: add prpper handling when user what to stop action, whole app
       }
       let resp;
@@ -78,13 +78,13 @@ const editProject = async () => {
     message: 'New name?',
     validate: input => {
       if (input.toLowerCase() === 'exit') {
-        console.log('Exiting the process...');
+        console.log('Exiting the process...');// TODO: handle console.logs in production properly
         process.exit(); // TODO: add prpper handling when user what to stop action, whole app
       }
       let resp;
       if ((resp = isProjectInvalid(input))) return resp;
 
-      return resp;
+      return true;
 
     }
   });
