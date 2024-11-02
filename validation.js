@@ -6,7 +6,7 @@ const isInvalidYup = (schema, ...rest) => {
   try {
     schema.validateSync(...rest);
   } catch (err) {
-    console.log(err)// TODO: handle console.logs in production properly
+    // console.log(err)// TODO: handle console.logs in production properly
     return err;
   }
 };
