@@ -1,7 +1,7 @@
 import * as inquirer from '@inquirer/prompts';
 
 import clientService from '../services/clientService.js';
-import { isClientInvalid } from '../../validation.js';
+import {isClientInvalid} from '../../validation.js';
 
 
 const createClient = async () => {
