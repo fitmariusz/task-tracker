@@ -25,24 +25,7 @@ Later, I plan to synchronize this project with track.toggle.com, but we will see
 - Comprehensive documentation and usage guidelines.
 
 # Tasks to work on
-- [x] Task-11: Add Yup validation to "Owner Create" and "Update" operations.
-- [x] Task-12: Add Yup validation to "Project Create" and "Update" operations.
-- [ ] Task-19: Add confirmation some sort when removing project or client
-- [W] Task-20: Implement task timer functionality (start, stop, save)
-- [ ] Task-21: Write summary command that prints out table with: date, task, time, project, client. It should be sorted by date. 
-
-Task to be created
-- [ ] task: Display in-progress tasks.
-- [ ] task: Implement autocomplete for CLI commands.
-- [ ] task: Add keybindings for common actions.
-- [ ] task: Display daily summary report of completed tasks.
-- [ ] task: Research and implement synchronization with track.toggle.com.
-- [ ] task: Write unit tests for models and features.
-- [ ] task: Update documentation in README.md.
-
-## Legend
-x-done 
-w-working
+All items have been moved to the project on GitHub: https://github.com/users/KamilMr/projects/4
 
 # Joining and Setting Up the Project
 
