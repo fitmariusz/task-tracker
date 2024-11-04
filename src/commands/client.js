@@ -49,9 +49,33 @@ const deleteClient = async () => {
 
   if (name === 'Stop') return;
 
-  const resp = await clientService.delete(clients.find(c => c.name === name));
+  // const variants = {yes, no};
+  // const decision = variants
+  // .map(({name}) => ({name, value: name}));
 
-  return resp;
+  // const test = await inquirer.search({
+  //   message: 'Which to delete?',
+  //   source: input =>
+  //     input
+  //       ? choices.filter(choice =>
+  //           choice.toLowerCase().includes(input.toLowerCase()),
+  //         )
+  //       : choices,
+  // });
+  const decision = await inquirer.input({
+    default: 'no',
+    message: `Are you sure to delete client: ${name} ? (yes/no)`,
+    
+  });
+  
+  if(decision.toLowerCase()==='yes')
+  {
+    const resp = await clientService.delete(clients.find(c => c.name === name));
+    return resp;
+  }
+  
+  return true;
+  
 };
 
 const editClient = async () => {
