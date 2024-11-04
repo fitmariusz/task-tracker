@@ -49,9 +49,18 @@ const deleteClient = async () => {
 
   if (name === 'Stop') return;
 
-  const resp = await clientService.delete(clients.find(c => c.name === name));
-
-  return resp;
+  const decision = await inquirer.input({
+    default: 'no',
+    message: `Are you sure to delete client: ${name} ? (yes/no)`,
+  });
+  
+  if(decision.toLowerCase()==='yes' | decision.toLowerCase()==='y')
+  {
+    const resp = await clientService.delete(clients.find(c => c.name === name));
+    return resp;
+  }
+  
+  return true;
 };
 
 const editClient = async () => {

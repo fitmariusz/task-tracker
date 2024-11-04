@@ -113,9 +113,19 @@ const deleteProject = async () => {
   });
   if (name === 'Stop') return;
 
-  const project = data.find(c => c.name === name);
-
-  await projectService.delete(project);
+  const decision = await inquirer.input({
+    default: 'no',
+    message: `Are you sure to delete project: ${name} ? (yes/no)`,
+    
+  });
+  
+  if(decision.toLowerCase()==='yes' | decision.toLowerCase()==='y')
+  {
+    const project = data.find(c => c.name === name);
+    console.log('Project delete..')
+    await projectService.delete(project);
+      
+  }
 };
 
 export {createProject, selectAllProjects, editProject, deleteProject};
