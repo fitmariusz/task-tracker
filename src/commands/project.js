@@ -15,10 +15,7 @@ const createProject = async () => {
   const name = await inquirer.input({
     message: 'What is the name of the project?',
     validate: input => {
-      if (input.toLowerCase() === 'exit') {
-        console.log('Exiting the process...');
-        process.exit(); // TODO: add prpper handling when user what to stop action, whole app
-      }
+      
       let resp;
       if ((resp = isProjectInvalid(input))) return resp;
 
