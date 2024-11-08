@@ -1,7 +1,7 @@
 import * as inquirer from '@inquirer/prompts';
 
 import clientService from '../services/clientService.js';
-import {isClientInvalid, isDecisionInvalid} from '../../validation.js';
+import {isClientInvalid, isConfirmationInvalid} from '../../validation.js';
 
 
 const createClient = async () => {
@@ -16,7 +16,6 @@ const createClient = async () => {
       if ((resp = isClientInvalid(input))) return resp;
 
       return true;
-
     },
 
   });
@@ -49,7 +48,7 @@ const deleteClient = async () => {
 
   if (name === 'Stop') return;
 
-  const decision = await inquirer.input({
+  const confirmation = await inquirer.input({
     default: 'no',
     message: `Are you sure to delete client: ${name} ? (yes/no)`,
     validate: input => {
@@ -58,14 +57,14 @@ const deleteClient = async () => {
         process.exit(); // TODO: add prpper handling when user what to stop action, whole app
       }
       let resp;
-      if ((resp = isDecisionInvalid(input.toLowerCase()))) return resp;
+      if ((resp = isConfirmationInvalid(input.toLowerCase()))) return resp;
 
       return true;
 
     },
   });
   
-  if(decision.toLowerCase()==='yes' | decision.toLowerCase()==='y')
+  if(confirmation.toLowerCase()==='yes' || confirmation.toLowerCase()==='y')
   {
     const resp = await clientService.delete(clients.find(c => c.name === name));
     return resp;

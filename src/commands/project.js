@@ -3,7 +3,7 @@ import * as inquirer from '@inquirer/prompts';
 import projectService from '../services/projectService.js';
 import clientService from '../services/clientService.js';
 import clientModel from '../models/client.js';
-import {isProjectInvalid, isDecisionInvalid} from '../../validation.js';
+import {isProjectInvalid, isConfirmationInvalid} from '../../validation.js';
 
 //TODO: validate
 
@@ -109,7 +109,7 @@ const deleteProject = async () => {
     },
   });
   if (name === 'Stop') return;
-  const decision = await inquirer.input({
+  const confirmation = await inquirer.input({
     default: 'no',
     message: `Are you sure to delete project: ${name} ? (yes/no)`,
     validate: input => {
@@ -118,17 +118,16 @@ const deleteProject = async () => {
         process.exit(); // TODO: add prpper handling when user what to stop action, whole app
       }
       let resp;
-      if ((resp = isDecisionInvalid(input.toLowerCase()))) return resp;
+      if ((resp = isConfirmationInvalid(input.toLowerCase()))) return resp;
 
       return true;
 
     },
   });
   
-  if(decision.toLowerCase()==='yes' | decision.toLowerCase()==='y')
+  if(confirmation.toLowerCase()==='yes' || confirmation.toLowerCase()==='y')
   {
     const project = data.find(c => c.name === name);
-    console.log(`The project ${name} has been deleted.`)
     await projectService.delete(project);
       
   }
